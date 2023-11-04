@@ -7,6 +7,8 @@ public class Cliente extends Conexao implements Login, Cadastro{
     private String CPF;
     private float saldo;
     private String nome;
+    private boolean logado;
+    public int id;
 
 
 
@@ -50,6 +52,11 @@ public class Cliente extends Conexao implements Login, Cadastro{
                 this.CPF = rs.getString("cpf");
                 this.saldo = rs.getFloat("saldo");
                 this.nome = rs.getString("nome");
+                this.setLogado(true);
+                // retorne o id do cliente logado do banco de dados
+                this.id = rs.getInt("id");         // implementar logica de retornar id para esta variavel
+                System.out.println("id do cliente logado: " + id);  // e utilizar ela para inserir no banco de dados.(feito)
+
                 isLogged(true);
             }else{
                 System.out.println("Usuario ou senha incorretos");
@@ -91,10 +98,6 @@ public class Cliente extends Conexao implements Login, Cadastro{
 
 
 
-
-
-
-
     public String toString(){
         return "Nome: " + this.nome + "\n" +
                 "CPF: " + this.CPF + "\n" +
@@ -104,11 +107,13 @@ public class Cliente extends Conexao implements Login, Cadastro{
                 "Saldo: " + this.saldo + "\n";
     }
 
+    public int getId(){
+        return this.id;
+    }
 
-
-
-
-
+    public void setId(int id){
+        this.id = id;
+    }
     public String getUser() {
         return user;
     }
@@ -155,5 +160,13 @@ public class Cliente extends Conexao implements Login, Cadastro{
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
+    }
+
+    public boolean getLogado(){
+        return this.logado;
     }
 }
