@@ -1,1 +1,7 @@
-PROJETO POO
+Langs: Java and PostgreSQL
+
+IDE : IntelliJ and netBeans
+
+Plugins: MySQL connector from postgreSQL
+
+INFO -> All this project is made for a group in the University called UTFPR (Universidade Tecnologica Federal Do Parana) with the proposal to make an Store of games utilizing Graphics UI from javax.Swing, all linked to a Database to not lose any data when the program is closed.
