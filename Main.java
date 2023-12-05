@@ -1,11 +1,12 @@
 // Version: 1.0
-// Date: 02/04/2020
+// Date: 2023-06-11
 // Author: Gabriel Reis Macedo
 // Description: Main class of the project.
 
 //import java.sql.*;
 import java.awt.GridBagLayout;
 import javax.swing.*;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -13,6 +14,54 @@ import java.util.ArrayList;
 
 public class Main {
     private static int idClienteLogado;
+
+    public void getJogos_banco() throws SQLException {
+        Conexao con = new Conexao();
+        Statement stmt = con.getConnection().createStatement();
+        String sql = "SELECT * FROM Jogos;";
+        ResultSet rs = stmt.executeQuery(sql);
+        while(rs.next()){
+            int i = 1;
+            System.out.println("------------jogo " + i + "------------");
+            //System.out.println("id: " + rs.getInt("id"));
+            System.out.println("nome: " + rs.getString("nome"));
+            System.out.println("preco: " + rs.getFloat("preco"));
+            System.out.println("genero: " + rs.getString("genero"));
+            System.out.println("desenvolvedora: " + rs.getString("desenvolvedora"));
+            System.out.println("descricao: " + rs.getString("descricao"));
+            i++;
+        }
+
+    }
+    public void MenuLoja(){
+        Scanner sc2 = new Scanner(System.in);
+        Loja loja = new Loja();
+
+        System.out.println("--------------Loja--------------");
+        System.out.println("1 - Comprar");
+        System.out.println("6 - Sair");
+        System.out.println("Digite a opcao desejada: ");
+        int op2 = sc2.nextInt();
+
+        while(op2 != 99){
+            switch (op2){
+                case 1:
+                    System.out.println("Lista de Jogos disponiveis: ");
+                    try {
+                        getJogos_banco();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opcao invalida");
+                    break;
+            }
+        }
+    }
 
     public void MenuLogado(){
         Scanner sc1 = new Scanner(System.in);
@@ -52,6 +101,9 @@ public class Main {
                         System.out.println("Forma de pagamento invalida");
                     }
                     break;
+                case 2:
+                    MenuLoja();
+                    break;
 
                 case 6:
                     System.exit(0);
@@ -79,7 +131,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Conexao con = new Conexao();
         System.out.println("1 - Conectar ao banco de dados");
-        System.out.println("2 - Criar tabela Cliente");
+        System.out.println("2 - Criar tabela Cliente e Jogos");
         System.out.println("3 - Login");
         System.out.println("4 - Cadastrar Cliente");
         System.out.println("5 - Desconectar do banco de dados");
@@ -94,6 +146,7 @@ public class Main {
                     break;
                 case 2:
                     con.Criar_tabela_Cliente();
+                    con.Criar_tabela_Jogos();
                     break;
                 case 3:
                     Cliente cliente = new Cliente();

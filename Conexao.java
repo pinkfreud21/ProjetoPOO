@@ -46,5 +46,19 @@ public class Conexao {
         }
     }
 
+    public void Criar_tabela_Jogos(){
+        Connection conGames = getConnection();
+        try {
+            Statement stmtGames = conGames.createStatement();
+            String sqlGames = "CREATE TABLE Jogos " + "(id SERIAL PRIMARY KEY," + " nome VARCHAR(255), "
+                    + " preco FLOAT, " + " genero VARCHAR(255), " + " desenvolvedora VARCHAR(255), "  + " descricao VARCHAR(255))";
+            stmtGames.executeUpdate(sqlGames);
+            stmtGames.close();
+            System.out.println("Tabela Jogos criada com sucesso");
+        } catch (SQLException e) {
+            System.out.println("Tabela Jogos ja existe");
+        }
+    }
+
 
 }
