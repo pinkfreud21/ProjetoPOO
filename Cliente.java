@@ -55,7 +55,7 @@ public class Cliente extends Conexao implements Login, Cadastro{
                 this.setLogado(true);
                 // retorne o id do cliente logado do banco de dados
                 this.id = rs.getInt("id");         // implementar logica de retornar id para esta variavel
-                System.out.println("id do cliente logado: " + id);  // e utilizar ela para inserir no banco de dados.(feito)
+                //System.out.println("id do cliente logado: " + id);  // e utilizar ela para inserir no banco de dados.(feito)
 
                 isLogged(true);
             }else{

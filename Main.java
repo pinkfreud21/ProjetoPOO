@@ -15,30 +15,13 @@ import java.util.ArrayList;
 public class Main {
     private static int idClienteLogado;
 
-    public void getJogos_banco() throws SQLException {
-        Conexao con = new Conexao();
-        Statement stmt = con.getConnection().createStatement();
-        String sql = "SELECT * FROM Jogos;";
-        ResultSet rs = stmt.executeQuery(sql);
-        while(rs.next()){
-            int i = 1;
-            System.out.println("------------jogo " + i + "------------");
-            //System.out.println("id: " + rs.getInt("id"));
-            System.out.println("nome: " + rs.getString("nome"));
-            System.out.println("preco: " + rs.getFloat("preco"));
-            System.out.println("genero: " + rs.getString("genero"));
-            System.out.println("desenvolvedora: " + rs.getString("desenvolvedora"));
-            System.out.println("descricao: " + rs.getString("descricao"));
-            i++;
-        }
-
-    }
-    public void MenuLoja(){
+    public void MenuLoja() throws SQLException {
         Scanner sc2 = new Scanner(System.in);
         Loja loja = new Loja();
 
         System.out.println("--------------Loja--------------");
         System.out.println("1 - Comprar");
+        System.out.println("2 - Historico de compras");
         System.out.println("6 - Sair");
         System.out.println("Digite a opcao desejada: ");
         int op2 = sc2.nextInt();
@@ -46,24 +29,38 @@ public class Main {
         while(op2 != 99){
             switch (op2){
                 case 1:
-                    System.out.println("Lista de Jogos disponiveis: ");
-                    try {
-                        getJogos_banco();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    Jogos jogo = new Jogos();
+                    jogo.jogos_banco(idClienteLogado);
+                    break;
+                case 2:
+                    Conexao con = new Conexao();
+                    Statement stmt = con.getConnection().createStatement();
+                    String sql = "SELECT nomecompra, precojogo FROM historico WHERE idcliente = " + idClienteLogado + ";";
+                    ResultSet rs = stmt.executeQuery(sql);
+                    while(rs.next()){
+                        System.out.println("Nome do jogo: " + rs.getString("nomecompra"));
+                        System.out.println("Preco do jogo: " + rs.getFloat("precojogo"));
+                        System.out.println("-------------------------------------------------");
                     }
                     break;
+
                 case 6:
+                    System.out.println("Saindo da loja...");
                     System.exit(0);
                     break;
                 default:
                     System.out.println("Opcao invalida");
                     break;
             }
+            System.out.println("--------------Loja--------------");
+            System.out.println("1 - Comprar");
+            System.out.println("6 - Sair");
+            System.out.println("Digite a opcao desejada: ");
+            op2 = sc2.nextInt();
         }
     }
 
-    public void MenuLogado(){
+    public void MenuLogado() throws SQLException {
         Scanner sc1 = new Scanner(System.in);
         System.out.println("--------------Sistema--------------");
         System.out.println("1 - Depositar");
@@ -131,11 +128,10 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Conexao con = new Conexao();
         System.out.println("1 - Conectar ao banco de dados");
-        System.out.println("2 - Criar tabela Cliente e Jogos");
-        System.out.println("3 - Login");
-        System.out.println("4 - Cadastrar Cliente");
-        System.out.println("5 - Desconectar do banco de dados");
-        System.out.println("6 - Sair");
+        System.out.println("2 - Login");
+        System.out.println("3 - Cadastrar Cliente");
+        System.out.println("4 - Desconectar do banco de dados");
+        System.out.println("5 - Sair");
         System.out.println("Digite a opcao desejada: ");
         Scanner sc = new Scanner(System.in);
         int opcao = sc.nextInt();
@@ -145,27 +141,23 @@ public class Main {
                     con.getConnection();
                     break;
                 case 2:
-                    con.Criar_tabela_Cliente();
-                    con.Criar_tabela_Jogos();
-                    break;
-                case 3:
                     Cliente cliente = new Cliente();
                     cliente.login();
                     idClienteLogado = cliente.getId();
-                    System.out.println("id cliente main: " + cliente.getId());
+                    //System.out.println("id cliente main: " + cliente.getId());
                     if(cliente.getLogado()){
                         Main menu = new Main();
                         menu.MenuLogado();
                     }
                     break;
-                case 4:
+                case 3:
                     Cliente cliente2 = new Cliente();
                     cliente2.cadastrar();
                     break;
-                case 5:
+                case 4:
                     con.closeConnection(con.getConnection());
                     break;
-                case 6:
+                case 5:
                     System.exit(0);
                     break;
                 default:
@@ -173,11 +165,10 @@ public class Main {
                     break;
             }
             System.out.println("1 - Conectar ao banco de dados");
-            System.out.println("2 - Criar tabela Cliente");
-            System.out.println("3 - Login");
-            System.out.println("4 - Cadastrar Cliente");
-            System.out.println("5 - Desconectar do banco de dados");
-            System.out.println("6 - Sair");
+            System.out.println("2 - Login");
+            System.out.println("3 - Cadastrar Cliente");
+            System.out.println("4 - Desconectar do banco de dados");
+            System.out.println("5 - Sair");
             System.out.println("Digite a opcao desejada: ");
             opcao = sc.nextInt();
         }

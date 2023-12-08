@@ -28,37 +28,6 @@ public class Conexao {
         }
     }
 
-    public void Criar_tabela_Cliente() {
-        // verificar se tabela cliente existe, se existir printar que existe e nao fazer nada
-        // se nao existir, criar a tabela cliente
-        Connection con = getConnection();
-        try {
-            Statement stmt = con.createStatement();
-            String sql = "CREATE TABLE Cliente " + "(id SERIAL PRIMARY KEY," + " nome VARCHAR(255), "
-                    + " usuario VARCHAR(255), " + " senha VARCHAR(255), " + " email VARCHAR(255), "
-                    + " cpf VARCHAR(255), " + " saldo FLOAT)";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            System.out.println("Tabela Cliente criada com sucesso");
-        } catch (SQLException e) {
-            System.out.println("Tabela Cliente ja existe");
-
-        }
-    }
-
-    public void Criar_tabela_Jogos(){
-        Connection conGames = getConnection();
-        try {
-            Statement stmtGames = conGames.createStatement();
-            String sqlGames = "CREATE TABLE Jogos " + "(id SERIAL PRIMARY KEY," + " nome VARCHAR(255), "
-                    + " preco FLOAT, " + " genero VARCHAR(255), " + " desenvolvedora VARCHAR(255), "  + " descricao VARCHAR(255))";
-            stmtGames.executeUpdate(sqlGames);
-            stmtGames.close();
-            System.out.println("Tabela Jogos criada com sucesso");
-        } catch (SQLException e) {
-            System.out.println("Tabela Jogos ja existe");
-        }
-    }
 
 
 }
