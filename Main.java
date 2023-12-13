@@ -1,3 +1,5 @@
+package code;
+
 // Version: 1.0
 // Date: 2023-06-11
 // Author: Gabriel Reis Macedo

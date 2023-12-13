@@ -1,3 +1,5 @@
+package code;
+
 import java.sql.*;
 
 public class Conexao {
@@ -5,11 +7,10 @@ public class Conexao {
     // funcao para estabelecer a conexao com o banco de dados poo_Teste
     private final String url = "jdbc:postgresql://localhost:5432/poo_projeto";
     private final String user = "postgres";
-    private final String password = "9200";
+    private final String password = "123";
 
     public Connection getConnection() {
         try {
-            System.out.println("Conectando ao banco de dados");
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Erro ao conectar ao banco de dados");
