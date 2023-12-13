@@ -1,32 +1,31 @@
 CREATE TABLE IF NOT EXISTS public.cliente
 (
-    id integer NOT NULL DEFAULT nextval('cliente_id_seq'::regclass),
-    nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    cpf character varying(11) COLLATE pg_catalog."default" NOT NULL,
-    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    usuario character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    senha character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    saldo double precision NOT NULL,
-    CONSTRAINT cliente_pkey PRIMARY KEY (id)
-)
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    usuario VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    saldo NUMERIC(10, 2) NOT NULL,
+    tipoUser INTEGER NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS public.jogos
 (
-    id integer NOT NULL DEFAULT nextval('jogos_id_seq'::regclass),
-    nome character varying(255) COLLATE pg_catalog."default",
-    preco double precision,
-    genero character varying(255) COLLATE pg_catalog."default",
-    desenvolvedora character varying(255) COLLATE pg_catalog."default",
-    descricao text COLLATE pg_catalog."default",
-    CONSTRAINT jogos_pkey PRIMARY KEY (id)
-)
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255),
+    preco NUMERIC(10, 2),
+    genero VARCHAR(255),
+    desenvolvedora VARCHAR(255),
+    descricao TEXT
+);
 
 CREATE TABLE IF NOT EXISTS public.historico
 (
-    idcliente integer,
-    idjogo integer,
-    nomecompra character varying(255) COLLATE pg_catalog."default",
-    precojogo double precision NOT NULL,
+	id SERIAL PRIMARY KEY,
+    idcliente INTEGER,
+    idjogo INTEGER,
+    separacao INTEGER,
     CONSTRAINT historico_idcliente_fkey FOREIGN KEY (idcliente)
         REFERENCES public.cliente (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -35,15 +34,14 @@ CREATE TABLE IF NOT EXISTS public.historico
         REFERENCES public.jogos (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
 
 CREATE TABLE IF NOT EXISTS public.biblioteca
 (
-    idcliente integer,
-    idjogo integer,
-    nomejogo character varying(255) COLLATE pg_catalog."default",
-    descricao text COLLATE pg_catalog."default",
-    CONSTRAINT biblioteca_idcliente_fkey FOREIGN KEY (idcliente)
+	id SERIAL PRIMARY KEY,
+	idcliente INTEGER,
+    idjogo INTEGER,
+	    CONSTRAINT biblioteca_idcliente_fkey FOREIGN KEY (idcliente)
         REFERENCES public.cliente (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,

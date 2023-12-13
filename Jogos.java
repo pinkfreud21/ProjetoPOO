@@ -1,8 +1,13 @@
+package code;
+
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Jogos {
+
     private String nome;
     private float preco;
     private String genero;
@@ -10,9 +15,9 @@ public class Jogos {
     private String descricao;
     private int id;
 
-
-
-    public Jogos(String nome, float preco, String genero, String desenvolvedora, String descricao){
+    
+    
+    public Jogos(String nome, float preco, String genero, String desenvolvedora, String descricao) {
         this.nome = nome;
         this.preco = preco;
         this.genero = genero;
@@ -20,7 +25,40 @@ public class Jogos {
         this.descricao = descricao;
     }
 
-    public Jogos() {}
+    public Jogos(String nome, float preco, String genero, String desenvolvedora, String descricao, int id) {
+        this.nome = nome;
+        this.preco = preco;
+        this.genero = genero;
+        this.desenvolvedora = desenvolvedora;
+        this.descricao = descricao;
+        this.id = id;
+    }
+
+    public void adicionar() {
+        String insert = "insert into jogos(nome, preco, genero, desenvolvedora, descricao) values (?,?,?,?,?)";
+        try {
+            Conexao con = new Conexao();
+            PreparedStatement pst = con.getConnection().prepareStatement(insert);
+            pst.setString(1, this.nome);
+            pst.setFloat(2, this.preco);
+            pst.setString(3, this.genero);
+            pst.setString(4, this.desenvolvedora);
+            pst.setString(5, this.descricao);
+            //pst.setBinaryStream(6, fis, tamanho);
+
+            int confirma = pst.executeUpdate();
+            if (confirma == 1) {
+                JOptionPane.showMessageDialog(null, "Jogo cadastrado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Jogo não cadastrado!");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public Jogos() {
+    }
 
     public void jogos_banco(int numero) throws SQLException {
         if (numero == 0) {
@@ -41,7 +79,6 @@ public class Jogos {
             sql = "SELECT * FROM jogos WHERE id = " + i + ";";
             rs = stmt.executeQuery(sql);
             rs.next();
-
 
             System.out.println("ID: " + rs.getInt("id"));
             System.out.println("Nome: " + rs.getString("nome"));
@@ -97,8 +134,7 @@ public class Jogos {
             System.out.println("Compra cancelada");
         }
 
-        }
-
+    }
 
     public int getId() {
         return id;

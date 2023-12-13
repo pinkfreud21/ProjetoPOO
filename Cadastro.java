@@ -1,3 +1,5 @@
+package code;
+
 import java.sql.SQLException;
 
 public interface Cadastro {
